@@ -8,6 +8,7 @@ public class Reiziger {
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
+    private Adres adres;
 
     public Reiziger( int id ,String vl, String tv, String an, Date gb){
         this.voorletters = vl;
@@ -17,6 +18,13 @@ public class Reiziger {
         this.id = id;
     }
 
+    public Adres getAdres() {
+        return adres;
+    }
+
+    public void setAdres(Adres adres) {
+        this.adres = adres;
+    }
 
     public int getId() {
         return id;
@@ -61,11 +69,11 @@ public class Reiziger {
     public String toString(){
         if(this.tussenvoegsel == null)
         {
-            return String.format("#%s: %s. %s : %s ", this.id , this.voorletters, this.achternaam, this.geboortedatum);
+            return String.format("#%s: %s. %s : %s {%s}", this.id , this.voorletters, this.achternaam, this.geboortedatum, this.adres);
         }
         else
             {
-            return String.format("#%s: %s. %s %s : %s ", this.id , this.voorletters, this.tussenvoegsel, this.achternaam, this.geboortedatum );
+            return String.format("#%s: %s. %s %s : %s {%s} ", this.id , this.voorletters, this.tussenvoegsel, this.achternaam, this.geboortedatum, this.adres );
         }
     }
 

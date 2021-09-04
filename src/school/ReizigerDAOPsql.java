@@ -6,8 +6,10 @@ import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
     private Connection conn;
-    public ReizigerDAOPsql(Connection conn){
+    AdresDAO adresDAO;
+    public ReizigerDAOPsql(Connection conn, AdresDAO adao){
         this.conn = conn;
+        this.adresDAO = adao;
     }
 
     @Override
@@ -72,7 +74,9 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             st.execute("SELECT * FROM public.reiziger WHERE reiziger_id=" + id);
             ResultSet rs = st.getResultSet();
             while(rs.next()){
-                output.add(new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5))));
+                Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
+                r.setAdres(adresDAO.findByReiziger(r));
+                output.add(r);
             }
             return output.get(0);
         }
@@ -90,7 +94,9 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 st.execute(String.format("SELECT * FROM public.reiziger WHERE geboortedatum='%s';", datum));
                 ResultSet rs = st.getResultSet();
                 while(rs.next()){
-                    output.add(new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5))));
+                    Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
+                    r.setAdres(adresDAO.findByReiziger(r));
+                    output.add(r);
                 }
                 return output;
             }
@@ -108,7 +114,9 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             st.execute("SELECT * FROM public.reiziger");
             ResultSet rs = st.getResultSet();
             while(rs.next()){
-                output.add(new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5))));
+                Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
+                r.setAdres(adresDAO.findByReiziger(r));
+                output.add(r);
             }
             return output;
         }
