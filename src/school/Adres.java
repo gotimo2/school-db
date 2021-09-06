@@ -1,6 +1,7 @@
 package school;
 
 public class Adres {
+
     private int id;
     private String postcode;
     private String huisnummer;
@@ -17,6 +18,7 @@ public class Adres {
         this.reiziger_id = reiziger_id;
     }
 
+    //getter/setter
     public String getHuisnummer() {
         return huisnummer;
     }
@@ -65,6 +67,8 @@ public class Adres {
         this.postcode = postcode;
     }
 
+
+    //tostring
     public String toString(){
         return String.format("%s : %s %s, %s, %s - Reiziger %s", this.id, this.huisnummer, this.straat, this.woonplaats, this.postcode, this.reiziger_id);
     }

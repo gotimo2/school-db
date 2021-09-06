@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Reiziger {
+
+    //variabelen
     int id;
     private String voorletters;
     private String tussenvoegsel;
@@ -12,7 +14,7 @@ public class Reiziger {
     private Adres adres;
     private ArrayList<OVChipkaart> kaarten = new ArrayList<OVChipkaart>();
 
-
+    //constructor
     public Reiziger( int id ,String vl, String tv, String an, Date gb){
         this.voorletters = vl;
         this.tussenvoegsel = tv;
@@ -20,6 +22,8 @@ public class Reiziger {
         this.geboortedatum = gb;
         this.id = id;
     }
+
+    //getters/setters
 
     public Adres getAdres() {
         return adres;

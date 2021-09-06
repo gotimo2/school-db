@@ -9,6 +9,7 @@ public class AdresDAOPsql implements AdresDAO{
     Connection conn;
     ReizigerDAO rdao;
 
+    //getter/setter
     public void setReizigerdao(ReizigerDAO rdao) {
         this.rdao = rdao;
     }
@@ -16,10 +17,13 @@ public class AdresDAOPsql implements AdresDAO{
         return rdao;
     }
 
+    //constructor
     public AdresDAOPsql(Connection conn) {
         this.conn = conn;
     }
 
+
+    //methoden
     @Override
     public boolean save(Adres adres) throws SQLException {
         Statement st = conn.createStatement();

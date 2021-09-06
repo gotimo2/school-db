@@ -6,18 +6,18 @@ import java.util.List;
 
 public class OVChipkaartDAOPsql implements OVChipkaartDAO {
 
+    Connection conn;
 
+    //constructor
     public OVChipkaartDAOPsql(Connection conn) {
         this.conn = conn;
     }
 
-    Connection conn;
-
+    //methoden
     @Override
     public boolean save(OVChipkaart kaart) throws SQLException {
         Statement st = conn.createStatement();
         try{
-            System.out.println(String.format("INSERT INTO public.ov_chipkaart(kaart_nummer, geldig_tot, klasse, saldo, reiziger_id) VALUES (%s, '%s', %s, %s, %s);", kaart.getKaartnummer(), kaart.getGeldigTot(), kaart.getKlasse(), kaart.getSaldo(), kaart.getReiziger().getId()));
             st.execute(String.format("INSERT INTO public.ov_chipkaart(kaart_nummer, geldig_tot, klasse, saldo, reiziger_id) VALUES (%s, '%s', %s, %s, %s);", kaart.getKaartnummer(), kaart.getGeldigTot(), kaart.getKlasse(), kaart.getSaldo(), kaart.getReiziger().getId()));
             return true;
         }

@@ -5,20 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
+
+    //connecties
     private Connection conn;
     AdresDAO adao;
     OVChipkaartDAO odao;
 
-    public ReizigerDAOPsql(Connection conn){
-        this.conn = conn;
-    }
-
-    public void setAdresDAO(AdresDAO a){this.adao = a;}
-
-    public AdresDAO getAdresDAO() {
-        return adao;
-    }
-
+    //methoden
     @Override
     public boolean save(Reiziger reiziger) throws SQLException{
         Statement st = conn.createStatement();
@@ -127,6 +120,33 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             r.setKaarten((ArrayList<OVChipkaart>) odao.findByReiziger(r));
             output.add(r);
         }
+    }
+
+    //getters/setters
+    public ReizigerDAOPsql(Connection conn){
+        this.conn = conn;
+    }
+
+    public void setAdresDAO(AdresDAO a){this.adao = a;}
+
+    public AdresDAO getAdresDAO() {
+        return adao;
+    }
+
+    public AdresDAO getAdao() {
+        return adao;
+    }
+
+    public void setAdao(AdresDAO adao) {
+        this.adao = adao;
+    }
+
+    public OVChipkaartDAO getOdao() {
+        return odao;
+    }
+
+    public void setOdao(OVChipkaartDAO odao) {
+        this.odao = odao;
     }
 
 }

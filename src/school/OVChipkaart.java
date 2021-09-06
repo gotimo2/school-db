@@ -3,12 +3,14 @@ package school;
 import java.util.Date;
 
 public class OVChipkaart {
+    //variabelen
     Double saldo;
     Date geldigTot;
     Integer klasse;
     Integer Kaartnummer;
     Reiziger reiziger;
 
+    //constructor
     public OVChipkaart(Reiziger reiziger, Double saldo, Date geldigTot, Integer klasse, Integer kaartnummer) {
         this.reiziger = reiziger;
         this.saldo = saldo;
@@ -17,6 +19,7 @@ public class OVChipkaart {
         Kaartnummer = kaartnummer;
     }
 
+    //getters/setters
     public Reiziger getReiziger() {
         return reiziger;
     }
