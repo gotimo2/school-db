@@ -1,6 +1,9 @@
 package school;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,11 +16,17 @@ public class Main {
         props.setProperty("password","password");
         props.setProperty("ssl","false");
         Connection conn = DriverManager.getConnection(url, props);
-        AdresDAOpsql adaopsql = new AdresDAOpsql(conn);
-        ReizigerDAOPsql rdaopsql = new ReizigerDAOPsql(conn, adaopsql);
-        adaopsql.setRdao(rdaopsql);
+
+        ReizigerDAOPsql rdaopsql = new ReizigerDAOPsql(conn);
+        AdresDAOPsql adaopsql = new AdresDAOPsql(conn);
+        OVChipkaartDAO odaopsql = new OVChipkaartDAOPsql(conn);
+
+        rdaopsql.setAdresDAO(adaopsql);
+        adaopsql.setReizigerdao(rdaopsql);
+
         testReizigerDAO(rdaopsql);
         testAdresDAO(adaopsql, rdaopsql);
+        testOVChipkaartDAO(odaopsql, rdaopsql);
     }
 
     private static void testReizigerDAO(ReizigerDAO rdao) throws SQLException {
@@ -66,7 +75,8 @@ public class Main {
         System.out.println("Test adres save");
         adao.save(bijlstraat);
         System.out.println("Test findAll");
-        System.out.println(adao.findAll());
+        List<Adres> aL = adao.findAll();
+        for (Adres i: aL) { System.out.println(i);}
         System.out.println("Test findByReiziger");
         System.out.println(adao.findByReiziger(sietske));
         System.out.println("Test update");
@@ -75,11 +85,23 @@ public class Main {
         System.out.println("Test delete");
         System.out.println(adao.delete(bijlstraat));
         System.out.println(rdao.delete(sietske));
+    }
+    public static void testOVChipkaartDAO(OVChipkaartDAO odao, ReizigerDAO rdao) throws SQLException {
+        System.out.println("\n--------------TEST OVChipkaartDAO-------------");
+        OVChipkaart kaart = new OVChipkaart(rdao.findByID(3), 300.0, java.sql.Date.valueOf("2023-04-04"), 1, 10382);
 
-
+        System.out.println("Test save kaart");
+        System.out.println(odao.save(kaart));
+        System.out.println("Test update kaart");
+        kaart.setSaldo(100.1);
+        System.out.println(odao.update(kaart));
+        System.out.println("Test findbyreiziger");
+        for (OVChipkaart o : odao.findByReiziger(rdao.findByID(3))){
+            System.out.println(o.toString());
+        }
+        System.out.println("Test delete kaart");
+        System.out.println(odao.delete(kaart));
 
     }
-
-
 
 }

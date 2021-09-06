@@ -6,10 +6,17 @@ import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
     private Connection conn;
-    AdresDAO adresDAO;
-    public ReizigerDAOPsql(Connection conn, AdresDAO adao){
+    AdresDAO adao;
+    OVChipkaartDAO odao;
+
+    public ReizigerDAOPsql(Connection conn){
         this.conn = conn;
-        this.adresDAO = adao;
+    }
+
+    public void setAdresDAO(AdresDAO a){this.adao = a;}
+
+    public AdresDAO getAdresDAO() {
+        return adao;
     }
 
     @Override
@@ -72,12 +79,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try{
             List<Reiziger> output = new ArrayList<Reiziger>();
             st.execute("SELECT * FROM public.reiziger WHERE reiziger_id=" + id);
-            ResultSet rs = st.getResultSet();
-            while(rs.next()){
-                Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
-                r.setAdres(adresDAO.findByReiziger(r));
-                output.add(r);
-            }
+            process(st, output);
             return output.get(0);
         }
         catch (SQLException e){
@@ -86,18 +88,14 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         }
     }
 
+
     @Override
     public List<Reiziger> findByGbDatum(String datum) throws SQLException {
             Statement st = conn.createStatement();
             try{
                 List<Reiziger> output = new ArrayList<Reiziger>();
                 st.execute(String.format("SELECT * FROM public.reiziger WHERE geboortedatum='%s';", datum));
-                ResultSet rs = st.getResultSet();
-                while(rs.next()){
-                    Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
-                    r.setAdres(adresDAO.findByReiziger(r));
-                    output.add(r);
-                }
+                process(st, output);
                 return output;
             }
             catch (SQLException e){
@@ -112,12 +110,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try{
             List<Reiziger> output = new ArrayList<Reiziger>();
             st.execute("SELECT * FROM public.reiziger");
-            ResultSet rs = st.getResultSet();
-            while(rs.next()){
-                Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
-                r.setAdres(adresDAO.findByReiziger(r));
-                output.add(r);
-            }
+            process(st, output);
             return output;
         }
         catch (SQLException e){
@@ -125,4 +118,15 @@ public class ReizigerDAOPsql implements ReizigerDAO {
             return null;
         }
     }
+
+    private void process(Statement st, List<Reiziger> output) throws SQLException {
+        ResultSet rs = st.getResultSet();
+        while(rs.next()){
+            Reiziger r = new Reiziger(Integer.parseInt(rs.getString(1)), rs.getString(2), rs.getString(3), rs.getString(4), Date.valueOf(rs.getString(5)));
+            r.setAdres(adao.findByReiziger(r));
+            r.setKaarten((ArrayList<OVChipkaart>) odao.findByReiziger(r));
+            output.add(r);
+        }
+    }
+
 }

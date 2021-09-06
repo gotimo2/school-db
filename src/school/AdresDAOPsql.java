@@ -4,17 +4,19 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdresDAOpsql implements AdresDAO{
+public class AdresDAOPsql implements AdresDAO{
 
     Connection conn;
+    ReizigerDAO rdao;
 
-    public void setRdao(ReizigerDAO rdao) {
-        this.reizigerdao = rdao;
+    public void setReizigerdao(ReizigerDAO rdao) {
+        this.rdao = rdao;
+    }
+    public ReizigerDAO getReizigerdao() {
+        return rdao;
     }
 
-    ReizigerDAO reizigerdao;
-
-    public AdresDAOpsql(Connection conn) {
+    public AdresDAOPsql(Connection conn) {
         this.conn = conn;
     }
 

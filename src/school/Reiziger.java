@@ -1,5 +1,6 @@
 package school;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Reiziger {
@@ -9,6 +10,8 @@ public class Reiziger {
     private String achternaam;
     private Date geboortedatum;
     private Adres adres;
+    private ArrayList<OVChipkaart> kaarten = new ArrayList<OVChipkaart>();
+
 
     public Reiziger( int id ,String vl, String tv, String an, Date gb){
         this.voorletters = vl;
@@ -64,6 +67,14 @@ public class Reiziger {
 
     public void setGeboortedatum(Date geboortedatum) {
         this.geboortedatum = geboortedatum;
+    }
+
+    public ArrayList<OVChipkaart> getKaarten() {
+        return kaarten;
+    }
+
+    public void setKaarten(ArrayList<OVChipkaart> kaarten) {
+        this.kaarten = kaarten;
     }
 
     public String toString(){
