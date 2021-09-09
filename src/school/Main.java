@@ -23,7 +23,7 @@ public class Main {
         AdresDAOPsql adaopsql = new AdresDAOPsql(conn);
         OVChipkaartDAO odaopsql = new OVChipkaartDAOPsql(conn);
 
-        //configureer DAO's
+        //configureer DAO's //TODO: moet ik dit niet eigenlijk met static's doen?
         rdaopsql.setAdresDAO(adaopsql);
         rdaopsql.setOdao(odaopsql);
         adaopsql.setReizigerdao(rdaopsql);

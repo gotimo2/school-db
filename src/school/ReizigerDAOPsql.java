@@ -18,11 +18,9 @@ public class ReizigerDAOPsql implements ReizigerDAO {
         try{
             System.out.println(" ");
             if (reiziger.getTussenvoegsel() == null || reiziger.getTussenvoegsel().equals("")){
-                //System.out.println(String.format("INSERT INTO public.reiziger(reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (%s, '%s', NULL, '%s', '%s');", reiziger.getId(), reiziger.getVoorletters(), reiziger.getAchternaam(), reiziger.getGeboortedatum().toString()));
                 st.execute(String.format("INSERT INTO public.reiziger(reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (%s, '%s', NULL, '%s', '%s');", reiziger.getId(), reiziger.getVoorletters(), reiziger.getAchternaam(), reiziger.getGeboortedatum().toString()));
             }
             else{
-                //System.out.println(String.format("INSERT INTO public.reiziger(reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (%s, '%s', '%s', '%s', '%s');", reiziger.getId(), reiziger.getVoorletters(), reiziger.getTussenvoegsel(), reiziger.getAchternaam(), reiziger.getGeboortedatum().toString()));
                 st.execute(String.format("INSERT INTO public.reiziger(reiziger_id, voorletters, tussenvoegsel, achternaam, geboortedatum) VALUES (%s, '%s', '%s', '%s', '%s');", reiziger.getId(), reiziger.getVoorletters(), reiziger.getTussenvoegsel(), reiziger.getAchternaam(), reiziger.getGeboortedatum().toString()));
             }
 
