@@ -1,5 +1,6 @@
 package school;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class OVChipkaart {
@@ -9,6 +10,7 @@ public class OVChipkaart {
     Integer klasse;
     Integer Kaartnummer;
     Reiziger reiziger;
+    ArrayList<Product> producten = new ArrayList<Product>();
 
     //constructor
     public OVChipkaart(Reiziger reiziger, Double saldo, Date geldigTot, Integer klasse, Integer kaartnummer) {
@@ -59,6 +61,25 @@ public class OVChipkaart {
 
     public void setKaartnummer(Integer kaartnummer) {
         Kaartnummer = kaartnummer;
+    }
+
+    public ArrayList<Product> getProducten() {
+        return producten;
+    }
+
+    public void addProduct(Product p){producten.add(p); p.addKaart(this);}
+
+    public void verwijderProduct(Product p){
+        ArrayList<Product> ObjstoRemove = new ArrayList<Product>();
+        for (Product pr:producten
+             ) {
+            if(p.getProduct_nummer().equals(pr.getProduct_nummer())){
+                ObjstoRemove.add(pr);
+                pr.verwijderKaart(this);
+            }
+
+        }
+        producten.removeAll(ObjstoRemove);
     }
 
     public String toString(){

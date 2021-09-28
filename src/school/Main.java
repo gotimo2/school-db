@@ -21,17 +21,20 @@ public class Main {
         //maak DAO's
         ReizigerDAOPsql rdaopsql = new ReizigerDAOPsql(conn);
         AdresDAOPsql adaopsql = new AdresDAOPsql(conn);
-        OVChipkaartDAO odaopsql = new OVChipkaartDAOPsql(conn);
+        OVChipkaartDAOPsql odaopsql = new OVChipkaartDAOPsql(conn);
+        ProductDAOPsql pdaopsql = new ProductDAOPsql(conn);
 
         //configureer DAO's //TODO: moet ik dit niet eigenlijk met static's doen?
         rdaopsql.setAdresDAO(adaopsql);
         rdaopsql.setOdao(odaopsql);
         adaopsql.setReizigerdao(rdaopsql);
+        odaopsql.setPdao(pdaopsql);
 
         //test DAO's
         testReizigerDAO(rdaopsql);
         testAdresDAO(adaopsql, rdaopsql);
         testOVChipkaartDAO(odaopsql, rdaopsql);
+        testProductDAO(pdaopsql, odaopsql);
     }
 
     private static void testReizigerDAO(ReizigerDAO rdao) throws SQLException {
@@ -102,6 +105,7 @@ public class Main {
         System.out.println(adao.delete(bijlstraat));
         rdao.delete(sietske);
     }
+
     public static void testOVChipkaartDAO(OVChipkaartDAO odao, ReizigerDAO rdao) throws SQLException {
         System.out.println("\n--------------TEST OVChipkaartDAO-------------");
 
@@ -112,7 +116,7 @@ public class Main {
         System.out.println("\n[Test] save kaart, moet true geven");
         System.out.println(odao.save(kaart));
 
-        System.out.println("\n[Test] update kaart, moet true geven en in de volgende test moet kaar 10382 100.1 euro hebben");
+        System.out.println("\n[Test] update kaart, moet true geven en in de volgende test moet kaart 10382 100.1 euro hebben");
         kaart.setSaldo(100.1);
         System.out.println(odao.update(kaart));
 
@@ -126,4 +130,39 @@ public class Main {
 
     }
 
+    public static void testProductDAO(ProductDAO pdao, OVChipkaartDAO odao) throws SQLException {
+        System.out.println("\n--------------TEST ProductDAO-------------");
+
+        //maak Product
+        Product pro = new Product(30, "Snelle trein pas", "pas die trein snel laat gaan", 10.0);
+        Product pro2 = new Product(32, "langzame trein pas", "pas die trein langzaam laat gaan", 10.0);
+
+        OVChipkaart kaart = new OVChipkaart(new Reiziger(1, "G" , "van", "Rijn", java.sql.Date.valueOf("2002-09-17")), 300.0, java.sql.Date.valueOf("2023-04-04"), 1, 10800);
+        kaart.addProduct(pro);
+
+        //test DAO
+        System.out.println("\n[Test] save kaart met product, moet true geven");
+        System.out.println(odao.save(kaart));
+
+        System.out.println("\n[Test] save product, moet true geven");
+        System.out.println(pdao.save(pro2));
+
+        System.out.println("\n[Test] update kaart met producten, moet true geven en in de volgende test moet kaar 10382 100.1 euro hebben");
+        kaart.verwijderProduct(pro);
+        kaart.addProduct(pro2);
+        System.out.println(odao.update(kaart));
+
+        System.out.println("\n[Test] findbyovchipkaart, moet langzame trein laten zien");
+        for (Product p : pdao.findbyOVChipkaart(kaart)){
+            System.out.println(p.toString());
+        }
+
+        System.out.println("\n[Test] delete product, moet true geven");
+        System.out.println(pdao.delete(pro));
+        System.out.println(pdao.delete(pro2));
+
+        System.out.println("[Test] Kaart wordt nog verwijderd");
+        System.out.println(odao.delete(kaart));
+
+    }
 }
