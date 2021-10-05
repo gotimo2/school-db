@@ -1,88 +1,37 @@
 package school;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+@Entity
+@Table(name = "ov_chipkaart")
 public class OVChipkaart {
-    //variabelen
+
     Double saldo;
+    @Column(name = "geldig_tot")
     Date geldigTot;
     Integer klasse;
+
+    @Id
+    @Column(name="kaart_nummer")
     Integer Kaartnummer;
+
+    @ManyToOne
+    @JoinColumn(name="reiziger_id")
     Reiziger reiziger;
-    ArrayList<Product> producten = new ArrayList<Product>();
 
-    //constructor
-    public OVChipkaart(Reiziger reiziger, Double saldo, Date geldigTot, Integer klasse, Integer kaartnummer) {
-        this.reiziger = reiziger;
-        this.saldo = saldo;
-        this.geldigTot = geldigTot;
-        this.klasse = klasse;
-        Kaartnummer = kaartnummer;
+    @ManyToMany
+    @JoinTable(name = "ov_chipkaart_product", joinColumns = {@JoinColumn(name = "kaart_nummer")}, inverseJoinColumns = {@JoinColumn(name = "product_nummer")})
+    List<Product> producten = new ArrayList<Product>();
+
+    public OVChipkaart() {
+
     }
 
-    //getters/setters
-    public Reiziger getReiziger() {
-        return reiziger;
-    }
-
-    public void setReiziger(Reiziger reiziger) {
-        this.reiziger = reiziger;
-    }
-
-
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
-
-    public Date getGeldigTot() {
-        return geldigTot;
-    }
-
-    public void setGeldigTot(Date geldigTot) {
-        this.geldigTot = geldigTot;
-    }
-
-    public Integer getKlasse() {
-        return klasse;
-    }
-
-    public void setKlasse(Integer klasse) {
-        this.klasse = klasse;
-    }
-
-    public Integer getKaartnummer() {
-        return Kaartnummer;
-    }
-
-    public void setKaartnummer(Integer kaartnummer) {
-        Kaartnummer = kaartnummer;
-    }
-
-    public ArrayList<Product> getProducten() {
-        return producten;
-    }
-
-    public void addProduct(Product p){producten.add(p); p.addKaart(this);}
-
-    public void verwijderProduct(Product p){
-        ArrayList<Product> ObjstoRemove = new ArrayList<Product>();
-        for (Product pr:producten
-             ) {
-            if(p.getProduct_nummer().equals(pr.getProduct_nummer())){
-                ObjstoRemove.add(pr);
-                pr.verwijderKaart(this);
-            }
-
-        }
-        producten.removeAll(ObjstoRemove);
-    }
 
     public String toString(){
-        return String.format("Kaart van %s, geldig tot %s, saldo %s, klasse %s, kaartnummer %s", this.getReiziger().getAchternaam(), this.getGeldigTot(), this.getSaldo(), this.getKlasse(), this.getKaartnummer());
+        return String.format("Kaart van %s, geldig tot %s, saldo %s, klasse %s, kaartnummer %s", this.reiziger.getAchternaam(), this.geldigTot, this.saldo, this.klasse, this.Kaartnummer);
     }
 }

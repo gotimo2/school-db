@@ -1,18 +1,28 @@
 package school;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+@Entity
 public class Reiziger {
 
     //variabelen
+    @Id
+    @Column(name = "reiziger_id")
     int id;
     private String voorletters;
     private String tussenvoegsel;
     private String achternaam;
     private Date geboortedatum;
+
+
+    @OneToOne(mappedBy = "reiziger")
     private Adres adres;
-    private ArrayList<OVChipkaart> kaarten = new ArrayList<OVChipkaart>();
+
+    @OneToMany(mappedBy = "reiziger")
+    private List<OVChipkaart> kaarten = new ArrayList<OVChipkaart>();
 
     //constructor
     public Reiziger( int id ,String vl, String tv, String an, Date gb){
@@ -21,6 +31,10 @@ public class Reiziger {
         this.achternaam = an;
         this.geboortedatum = gb;
         this.id = id;
+    }
+
+    public Reiziger(){
+
     }
 
     //getters/setters
@@ -73,13 +87,7 @@ public class Reiziger {
         this.geboortedatum = geboortedatum;
     }
 
-    public ArrayList<OVChipkaart> getKaarten() {
-        return kaarten;
-    }
 
-    public void setKaarten(ArrayList<OVChipkaart> kaarten) {
-        this.kaarten = kaarten;
-    }
 
     public String toString(){
         if(this.tussenvoegsel == null)

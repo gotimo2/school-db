@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/db-school.iml" filepath="$PROJECT_DIR$/db-school.iml" />
+      <module fileurl="file://$PROJECT_DIR$/school-db-hibernate.iml" filepath="$PROJECT_DIR$/school-db-hibernate.iml" />
     </modules>
   </component>
 </project>
