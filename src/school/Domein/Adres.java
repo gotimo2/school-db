@@ -1,4 +1,4 @@
-package school;
+package school.Domein;
 
 import javax.persistence.*;
 
@@ -7,6 +7,7 @@ public class Adres {
 
     @Id
     @Column(name = "adres_id")
+    @GeneratedValue
     private int id;
     private String postcode;
     private String huisnummer;
@@ -20,6 +21,15 @@ public class Adres {
 
     public Adres() {
 
+    }
+
+    public Adres(int id, String postcode, String huisnummer, String straat, String woonplaats, Reiziger r){
+        this.id = id;
+        this.postcode = postcode;
+        this.huisnummer = huisnummer;
+        this.straat = straat;
+        this.woonplaats = woonplaats;
+        this.reiziger = r;
     }
 
     //getter/setter

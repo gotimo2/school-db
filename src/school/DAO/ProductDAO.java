@@ -1,4 +1,7 @@
-package school;
+package school.DAO;
+
+import school.Domein.OVChipkaart;
+import school.Domein.Product;
 
 import java.sql.SQLException;
 import java.util.List;

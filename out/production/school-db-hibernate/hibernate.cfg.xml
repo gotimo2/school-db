@@ -27,10 +27,10 @@
         </property>
 
         <!-- List of XML mapping files -->
-        <mapping class = "school.Product"/>
-        <mapping class = "school.OVChipkaart"/>
-        <mapping class = "school.Reiziger"/>
-        <mapping class = "school.Adres"/>
+        <mapping class = "school.Domein.Product"/>
+        <mapping class = "school.Domein.OVChipkaart"/>
+        <mapping class = "school.Domein.Reiziger"/>
+        <mapping class = "school.Domein.Adres"/>
 
     </session-factory>
 </hibernate-configuration>

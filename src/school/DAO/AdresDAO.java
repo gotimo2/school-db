@@ -1,4 +1,7 @@
-package school;
+package school.DAO;
+
+import school.Domein.Adres;
+import school.Domein.Reiziger;
 
 import java.sql.SQLException;
 import java.util.List;

@@ -1,21 +1,21 @@
-package school;
+package school.Domein;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Product {
+
     @Id
+    @GeneratedValue()
     private Integer product_nummer;
+
     private String naam;
     private String beschrijving;
     private double prijs;
 
-    @ManyToMany(mappedBy = "producten")
+    @ManyToMany(mappedBy = "producten", fetch = FetchType.EAGER)
     private List<OVChipkaart> kaarten = new ArrayList<OVChipkaart>();
 
     public void addKaart(OVChipkaart k) {kaarten.add(k);}
@@ -25,6 +25,17 @@ public class Product {
     }
 
     public Product(){}
+
+    public Product(String naam, String beschrijving, double prijs ){
+        this.naam = naam;
+        this.beschrijving = beschrijving;
+        this.prijs = prijs;
+    }
+
+    public void verwijderKaart(OVChipkaart k){
+        kaarten.removeIf(ka -> k.getKaartnummer().equals(ka.getKaartnummer()));
+    }
+
 
     public Integer getProduct_nummer() {
         return product_nummer;
